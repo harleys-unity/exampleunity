@@ -26,22 +26,30 @@ done
 
 
 configFileValue=$(jq -c '.' ./Assets/Data/RemoteConfig/RemoteConfig.json)
+
+# Gets here per logs: https://cloud.unity.com/home/organizations/3574059654190/projects/a375a73a-50d3-4500-87b2-c1bfea97f757/cloud-build/buildtargets/devops-test-build-windows/builds/13/log#L2644
 echo "File: $configFileValue"
 
 updatingJson=$(echo $configFileValue | sed -e "s/ENVID/$environmentUuid/g")
-		  
-echo $updatingJson	  
+
+# Gets here per logs: https://cloud.unity.com/home/organizations/3574059654190/projects/a375a73a-50d3-4500-87b2-c1bfea97f757/cloud-build/buildtargets/devops-test-build-windows/builds/13/log#L2645
+echo $updatingJson
 
 
+# Gets here per logs: https://cloud.unity.com/home/organizations/3574059654190/projects/a375a73a-50d3-4500-87b2-c1bfea97f757/cloud-build/buildtargets/devops-test-build-windows/builds/13/log#L2646
+# ..and returns:
+#
+#	curl: (3) URL using bad/illegal format or missing URL
+#
 if [ -z "$configId" ]; then 
 	curl -X POST \
-		https://services.api.unity.com/remote-config/v1/projects/$projectId/configs \
+		"https://services.api.unity.com/remote-config/v1/projects/$projectId/configs" \
 		  -H 'Authorization: Basic $authkey' \
 		  -H "Content-Type: application/json" \
 		  -d $updatingJson
 else
 	curl -X PUT \
-		https://services.api.unity.com/remote-config/v1/projects/$projectId/configs/$configId \
+		"https://services.api.unity.com/remote-config/v1/projects/$projectId/configs/$configId" \
 		  -H "Authorization: Basic $authkey" \
 		  -H "Content-Type: application/json" \
 		  -d $updatingJson

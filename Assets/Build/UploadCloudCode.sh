@@ -9,6 +9,7 @@ ugs env list
 solutions=$(find ./CloudCodeModules -name '*.sln')
 
 for solution in $solutions; do
+	# Gets here
 	echo "Uploading $solution"
 	ugs deploy $solution -e $environment -j
 done
