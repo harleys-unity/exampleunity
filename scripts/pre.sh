@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # echo "Script start"
 # pwd
 
@@ -13,3 +15,9 @@
 # # ls "C:\Users\buildbot\.gradle\.gsdk_plugin"
 # # ls "/Users/buildbot/.gradle/.gsdk_plugin"
 # echo "Script end"
+
+file=test.txt
+
+echo "We can write files via Bash" > $file
+value=`cat $file`
+echo "TADA! $value"
