@@ -13,13 +13,15 @@ RawEconomy=$(curl -H "Content-Type: application/json" \
 # Got response per logs: https://cloud.unity.com/home/organizations/3574059654190/projects/a375a73a-50d3-4500-87b2-c1bfea97f757/cloud-build/buildtargets/devops-test-build-windows/builds/13/log#L2581
 echo "Raw Economy: $RawEconomy"
 
-parsedEconomy=$(jq ".results[].id" <<< "$RawEconomy")
+# parsedEconomy=$(jq ".results[].id" <<< "$RawEconomy")
+# Reference: https://stackoverflow.com/a/40322380
+parsedEconomy=$(jq -r ".results[].id" <<< "$RawEconomy" | tr  -d '\r')
 echo "Economy: $parsedEconomy"
 
 for singleItem in $parsedEconomy; do
 	#Remove quotes
 	# singleItem=$(echo "$singleItem" | sed -e 's/^"//' -e 's/"$//')
-	singleItem=$(echo "$singleItem" | sed -e 's/"//g')
+	# singleItem=$(echo "$singleItem" | sed -e 's/"//g')
 
 	# Got here per logs: https://cloud.unity.com/home/organizations/3574059654190/projects/a375a73a-50d3-4500-87b2-c1bfea97f757/cloud-build/buildtargets/devops-test-build-windows/builds/13/log#L2582
 	# ..and returned:
